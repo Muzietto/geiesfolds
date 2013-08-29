@@ -43,9 +43,16 @@ YAHOO.GEIESFOLDS.test.oTestFoldRightAdvanced = new YAHOO.tool.TestCase({
 		Assert.areEqual('[1,2,3,a,b,c]', curriedConcat(ArrayToList([1,2,3]))(ArrayToList(['a','b','c'])).c,'fold right: curriedConcat is not right!');
 		
 		Assert.areEqual('[3,2,1]', concatWithFold(ArrayToList([1,2,3])).c,'fold right: concat is not right!');
+		
+		var filter2 = function(x){return (x===2);};
+		Assert.areEqual('[1,3]', filterWithFold(filter2)(ArrayToList([1,2,3,2,2,2,2])).c,'fold right: filter is not right!');
+
+		var adder2 = function(x){
+			return x+2;
+		};
+		Assert.areEqual('[3,4,5]', mapWithFold(adder2)(ArrayToList([1,2,3])).c,'fold right: map is not right!');
 	}
 });
-
 
 
 YAHOO.util.Event

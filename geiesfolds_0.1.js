@@ -84,9 +84,30 @@ function concatter(x){
 var concatWithFold = fold(concatter)(EMPTY);
 
 // filter
+function filterer(p){
+	return function(x){ // \x,y -> px ? y : x:y
+		return function(y){
+			return (p(x)) ? y : cons(x,y);
+		};
+	};
+};
 
+var filterWithFold = function(p){
+	return fold(filterer(p))(EMPTY);
+};
 
 // map
+function mapper(f){
+	return function(x){ // \x,y -> fx:y
+		return function(y){
+			return cons(f(x),y);
+		};
+	};
+};
+
+var mapWithFold = function(f){
+	return fold(mapper(f))(EMPTY);
+};
 
 
 // tuples functions
