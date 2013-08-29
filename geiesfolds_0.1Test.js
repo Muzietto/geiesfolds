@@ -16,10 +16,19 @@ YAHOO.GEIESFOLDS.test.oTestXXX = new YAHOO.tool.TestCase({
 	name : "TestXXX",
 	testXXX : function() {
 	
+		Assert.isTrue(isEmpty(EMPTY));
+		
 		var pippo = cons('qwe',EMPTY);
-//		Assert.isTrue(isEmpty(EMPTY))
-
 		Assert.areEqual('qwe', head(pippo));
+		
+		var adder = function(a){
+			return function(b){return a+b;}
+		};
+		var addingFold = fold(adder)(0);
+		
+		Assert.areEqual(6, addingFold(ArrayToList([1,2,3])),'fold right is not right!');
+
+
 	}
 });
 
