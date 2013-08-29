@@ -75,6 +75,13 @@ function curriedConcat(aList){
 	};
 };
 
+function concatter(x){
+	return function(y){
+		return curriedConcat(y)(cons(x,EMPTY));
+	};
+};
+
+var concatWithFold = fold(concatter)(EMPTY);
 
 // filter
 

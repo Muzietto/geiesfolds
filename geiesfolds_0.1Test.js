@@ -42,6 +42,7 @@ YAHOO.GEIESFOLDS.test.oTestFoldRightAdvanced = new YAHOO.tool.TestCase({
 
 		Assert.areEqual('[1,2,3,a,b,c]', curriedConcat(ArrayToList([1,2,3]))(ArrayToList(['a','b','c'])).c,'fold right: curriedConcat is not right!');
 		
+		Assert.areEqual('[3,2,1]', concatWithFold(ArrayToList([1,2,3])).c,'fold right: concat is not right!');
 	}
 });
 
