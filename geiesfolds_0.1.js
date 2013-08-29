@@ -25,19 +25,55 @@ function fold(f){
 };
 
 // sum
+function adder(a){
+	return function(b){
+		return a + b;
+	}
+};
+var sumWithFold = fold(adder)(0);
 
 // product
+function multiplier(a){
+	return function(b){
+		return a * b;
+	}
+};
+var productWithFold = fold(multiplier)(1);
 
 // and
-
+function and(a){
+	return function(b){
+		return a && b;
+	}
+};
+var andWithFold = fold(and)(true);
 
 // or
-
+function or(a){
+	return function(b){
+		return a || b;
+	}
+};
+var orWithFold = fold(or)(false);
 
 // length
+function lenghter(x){
+	return function(n){
+		return n + 1;
+	};
+};
 
+var lengthWithFold = fold(lenghter)(0);
 
-// reverse
+// reverse - redefine concat first
+function curriedConcat(aList){
+	return function(bList){
+		if (isEmpty(aList)) return bList;
+		else if (isEmpty(bList)) return aList;
+		else if (isEmpty(tail(aList))) return cons(head(aList),bList);
+		else return cons(head(aList),curriedConcat(tail(aList))(bList));
+	};
+};
 
 
 // filter
