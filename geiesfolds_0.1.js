@@ -1,4 +1,59 @@
-// http://igstan.ro/posts/2011-05-02-understanding-monads-with-javascript.html
+/*
+	GEIESFOLDS - JS fold right and then left
+	Author: Marco Faustinelli (contacts@faustinelli.net)
+	Web: http://faustinelli.net/
+	     http://faustinelli.wordpress.com/
+	Version: 0.1 (pre)
+
+	The MIT License - Copyright (c) 2013 Geiesfolds Project
+*/
+
+
+// cons, car (import geieslists)
+var pippo = EMPTY.prototype;
+
+// fold
+
+
+// sum
+
+// product
+
+// and
+
+
+// or
+
+
+// length
+
+
+// reverse
+
+
+// filter
+
+
+// map
+
+
+// tuples functions
+
+// sumlength
+
+
+// dropWhile
+
+
+// compose
+
+
+// suml
+
+
+
+// foldl
+
 
 var bind = function(pair,continuation) { return continuation(pair); };
 
