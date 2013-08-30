@@ -22,7 +22,7 @@ YAHOO.GEIESFOLDS.test.oTestFoldRightBasics = new YAHOO.tool.TestCase({
 		Assert.areEqual('qwe', head(pippo));
 		
 		// tuples functions
-		var couple = pair('a','b');
+		var couple = pair('a')('b');
 		Assert.areEqual('a', _1(couple));
 		Assert.areEqual('b', _2(couple));
 
@@ -58,6 +58,13 @@ YAHOO.GEIESFOLDS.test.oTestFoldRightAdvanced = new YAHOO.tool.TestCase({
 		Assert.areEqual('[3,4,5]', mapWithFold(adder2)(ArrayToList([1,2,3])).c,'fold right: map is not right!');
 		
 		Assert.areEqual('[6,3]', sumLengthWithFold(ArrayToList([1,2,3])).c,'fold right: sumLength is not right!');
+
+		var dropperUpTo2 = function(x){
+			return (x<3);
+		};
+		var aPair = dropWhileApexWithFold(dropperUpTo2)(ArrayToList([1,2,3,4,5]));
+		Assert.areEqual('[3,4,5]', first(aPair).c,'fold right: first(dropWhileApex) is not right!');
+		Assert.areEqual('[1,2,3,4,5]', second(aPair).c,'fold right: second(dropWhileApex) is not right!');
 	}
 });
 

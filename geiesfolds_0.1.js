@@ -25,7 +25,12 @@ function fold(f){
 };
 
 // tuples management (helper functions)
-function pair(first, second) {return cons(first,cons(second,EMPTY))}
+function pair(first) {
+	return function(second) {
+		return cons(first,cons(second,EMPTY));
+	}
+}
+
 function first(tuple) { 
 	if (size(tuple)!==2) throw 'Not a tuple!'
 	else return head(tuple)
@@ -97,7 +102,7 @@ var concatWithFold = fold(concatter)(EMPTY);
 
 // filter
 function filterer(p){
-	return function(x){ // \x,y -> px ? y : (x:y)
+	return function(x){ // \x,y -> if px then y else x:y
 		return function(y){
 			return (p(x)) ? y : cons(x,y);
 		};
@@ -124,14 +129,25 @@ var mapWithFold = function(f){
 // sumlength
 function sumlengther(x){
 	return function(y){
-		return pair(x+_1(y),1+_2(y));
+		return pair(x+_1(y))(1+_2(y));
 	};
 };
 
-var sumLengthWithFold = fold(sumlengther)(pair(0,0));
+var sumLengthWithFold = fold(sumlengther)(pair(0)(0));
 
 // dropWhile
+function dwapexer(p){
+	return function(x){ // \x,(a,b) -> (if px then a else x:b,x:b)
+		return function(ab){
+			var a=first(ab),b=second(ab);
+			return pair(p(x) ? a : cons(x,b))(cons(x,b));
+		}
+	}
+}
 
+var dropWhileApexWithFold = function(p){
+	return fold(dwapexer(p))(pair(EMPTY)(EMPTY));
+}
 
 // compose
 
