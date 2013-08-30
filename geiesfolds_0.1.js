@@ -24,6 +24,18 @@ function fold(f){
 	};
 };
 
+// tuples management (helper functions)
+function pair(first, second) {return cons(first,cons(second,EMPTY))}
+function first(tuple) { 
+	if (size(tuple)!==2) throw 'Not a tuple!'
+	else return head(tuple)
+}
+function second(tuple) { 
+	if (size(tuple)!==2) throw 'Not a tuple!'
+	else return head(tail(tuple))
+}
+var _1 = first, _2 = second;
+
 // sum
 function adder(a){
 	return function(b){
@@ -85,7 +97,7 @@ var concatWithFold = fold(concatter)(EMPTY);
 
 // filter
 function filterer(p){
-	return function(x){ // \x,y -> px ? y : x:y
+	return function(x){ // \x,y -> px ? y : (x:y)
 		return function(y){
 			return (p(x)) ? y : cons(x,y);
 		};
@@ -109,11 +121,14 @@ var mapWithFold = function(f){
 	return fold(mapper(f))(EMPTY);
 };
 
-
-// tuples functions
-
 // sumlength
+function sumlengther(x){
+	return function(y){
+		return pair(x+_1(y),1+_2(y));
+	};
+};
 
+var sumLengthWithFold = fold(sumlengther)(pair(0,0));
 
 // dropWhile
 
@@ -126,5 +141,3 @@ var mapWithFold = function(f){
 
 
 // foldl
-
-var bind = function(pair,continuation) { return continuation(pair); };
