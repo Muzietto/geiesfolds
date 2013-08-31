@@ -16,10 +16,10 @@ YAHOO.GEIESFOLDS.test.oTestFoldRightBasics = new YAHOO.tool.TestCase({
 	name : "TestFoldRightBasics",
 	testFoldRightBasics : function() {
 	
-		Assert.isTrue(isEmpty(EMPTY));
-		
-		var pippo = cons('qwe',EMPTY);
-		Assert.areEqual('qwe', head(pippo));
+		// recap from geieslists
+		Assert.isTrue(isEmpty(EMPTY));		
+		Assert.areEqual('abc', head(cons('abc',EMPTY)));
+		Assert.areEqual(EMPTY, tail(cons('abc',EMPTY)));
 		
 		// tuples functions
 		var couple = pair('a')('b');
@@ -42,29 +42,47 @@ YAHOO.GEIESFOLDS.test.oTestFoldRightAdvanced = new YAHOO.tool.TestCase({
 	name : "TestFoldRightAdvanced",
 	testFoldRightAdvanced : function() {
 	
+		// length
 		Assert.areEqual(0, lengthWithFold(ArrayToList([])),'fold right: length1 is not right!');
 		Assert.areEqual(3, lengthWithFold(ArrayToList([1,2,3])),'fold right: length2 is not right!');
 
+		// concat
 		Assert.areEqual('[1,2,3,a,b,c]', curriedConcat(ArrayToList([1,2,3]))(ArrayToList(['a','b','c'])).c,'fold right: curriedConcat is not right!');
 		
 		Assert.areEqual('[3,2,1]', concatWithFold(ArrayToList([1,2,3])).c,'fold right: concat is not right!');
 		
+		// filter
 		var filter2 = function(x){return (x===2);};
 		Assert.areEqual('[1,3]', filterWithFold(filter2)(ArrayToList([1,2,3,2,2,2,2])).c,'fold right: filter is not right!');
 
+		// map
 		var adder2 = function(x){
 			return x+2;
 		};
 		Assert.areEqual('[3,4,5]', mapWithFold(adder2)(ArrayToList([1,2,3])).c,'fold right: map is not right!');
 		
+		// sumlength
 		Assert.areEqual('[6,3]', sumLengthWithFold(ArrayToList([1,2,3])).c,'fold right: sumLength is not right!');
 
+		// dropWhile
 		var dropperUpTo2 = function(x){
 			return (x<3);
 		};
 		var aPair = dropWhileApexWithFold(dropperUpTo2)(ArrayToList([1,2,3,4,5]));
 		Assert.areEqual('[3,4,5]', first(aPair).c,'fold right: first(dropWhileApex) is not right!');
 		Assert.areEqual('[1,2,3,4,5]', second(aPair).c,'fold right: second(dropWhileApex) is not right!');
+		Assert.areEqual('[[3,4,5],[1,2,3,4,5]]', aPair.c,'fold right: dropWhileApex is not right!');
+
+		// compose - gotta use redefined cons to put functions in list
+		var times2 = function(x){
+			return x*2;
+		};
+		var testFuncs = localCons(times2,localCons(adder2,EMPTY));
+		Assert.areEqual(6, composeWithFold(testFuncs)(1),'fold right: compose is not right!');
+
+		// sumleft
+		Assert.areEqual(6, sumLeftWithFold(ArrayToList([1,2,3])),'fold right: sumLeftWithFold is not right!');
+
 	}
 });
 

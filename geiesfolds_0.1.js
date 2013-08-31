@@ -41,6 +41,9 @@ function second(tuple) {
 }
 var _1 = first, _2 = second;
 
+// let'name things by their own name
+var IDENTITY = EMPTY;
+
 // sum
 function adder(a){
 	return function(b){
@@ -136,7 +139,7 @@ function sumlengther(x){
 var sumLengthWithFold = fold(sumlengther)(pair(0)(0));
 
 // dropWhile
-function dwapexer(p){
+function dwApexer(p){
 	return function(x){ // \x,(a,b) -> (if px then a else x:b,x:b)
 		return function(ab){
 			var a=first(ab),b=second(ab);
@@ -146,14 +149,35 @@ function dwapexer(p){
 }
 
 var dropWhileApexWithFold = function(p){
-	return fold(dwapexer(p))(pair(EMPTY)(EMPTY));
+	return fold(dwApexer(p))(pair(EMPTY)(EMPTY));
 }
 
-// compose
+// compose - gotta redefine cons to put functions in list
+function localCons(x,y){return function(w){return w(x,y);};};
 
+function composer(x){
+	return function(y){
+		return x(y);
+	}
+}
+// NB: will use operand instead of IDENTITY at deepest recursion level!
+var composeWithFold = function(funcs){
+	return function(operand){
+		return fold(composer)(operand)(funcs);
+	}
+}
 
 // suml
+function sumLeftApex(x){ // head
+	return function(y){ // sumLeftApex(xs)
+		return function(z){ // acc
+			return y(x+z);
+		};
+	};
+};
 
-
+var sumLeftWithFold = function(addenda){
+	return fold(sumLeftApex)(IDENTITY)(addenda)(0); // sumLeftApex is the helper of the real thing!
+};
 
 // foldl
