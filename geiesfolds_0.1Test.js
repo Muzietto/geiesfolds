@@ -109,7 +109,14 @@ YAHOO.GEIESFOLDS.test.oTestFoldLeftAdvanced = new YAHOO.tool.TestCase({
 	testFoldLeftAdvanced : function() {
 	
 		Assert.areEqual(1.2857142857142858, averageWithFoldl(ArrayToList([1,2,-3,0,5,1,3])),'fold left: average is not right!');
+		Assert.areEqual(3, lastWithFoldl(ArrayToList([1,2,-3,0,5,1,3])),'fold left: last is not right!');
+		Assert.areEqual(1, penultimateWithFoldl(ArrayToList([1,2,-3,0,5,1,3])),'fold left: penultimate is not right!');
 	
+		Assert.isTrue(containsWithFoldl(ArrayToList([1,2,-3,0,5,1,3]))(0),'fold left: contains1 is not right!');
+		Assert.isFalse(containsWithFoldl(ArrayToList([1,2,-3,0,5,1,3]))(10),'fold left: contains2 is not right!');
+
+		Assert.areEqual(1, getWithFoldl(ArrayToList([1,2,-3,0,5,1,3]))(0),'fold left: get1 is not right!');
+		Assert.areEqual(3, getWithFoldl(ArrayToList([1,2,-3,0,5,1,3]))(6),'fold left: get2 is not right!');
 	}
 });
 

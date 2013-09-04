@@ -220,6 +220,53 @@ var averageWithFoldl = function(xs){
 	}
 };
 
+var lastWithFoldl = function(xs){
+	return foldl(function(a){ // acc contains xs and gets sliced more and more
+		return function(x){
+			return isEmpty(a)?x:tail(a);
+		}
+	})(tail(xs))(xs);
+};
+
+var penultimateWithFoldl = function(xs){
+	return first(foldl(function(aPair){  // (last,penultimate)
+		return function(x){
+			var penultimate = second(aPair);
+			return pair(penultimate)(x);
+		}
+	})(pair(head(xs))(head(tail(xs))))(xs));
+};
+
+var containsWithFoldl = function(xs){
+	return function(elem){
+		var flag = false;
+		var container = function(a){
+			return function(x){
+				if (!flag&&x===elem){
+					flag = true;
+					return true;
+				} else {
+					return a;
+				}
+			}
+		};
+		return foldl(container)(false)(xs);
+	};
+};
+
+var getWithFoldl = function(xs){
+	return function(index){
+		var getter = function(aPair){
+			var currentIndex = first(aPair), result = second(aPair);
+			return function(x){
+				var nextResult = (currentIndex<=index)?x:result;
+				return pair(currentIndex+1)(nextResult);
+			};
+		};
+		return second(foldl(getter)(pair(0)(EMPTY))(xs));
+	};
+};
+
 // special bonus: continuations
 function lengthWithContinuation(aList) {
 	return function(aCont){
