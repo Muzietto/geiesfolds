@@ -35,6 +35,12 @@ YAHOO.GEIESFOLDS.test.oTestFoldRightBasics = new YAHOO.tool.TestCase({
 		Assert.areEqual(true, orWithFold(ArrayToList([false,false,true])),'fold right: or1 is not right!');
 		Assert.areEqual(false, orWithFold(ArrayToList([false,false,false])),'fold right: or2 is not right!');
 
+		// continuations
+		var kappa = function(n) {
+			return n+1;
+		};
+		Assert.areEqual(3+1, lengthWithContinuation(ArrayToList([1,2,3]))(kappa),'lengthWithContinuation is not right!');
+		Assert.areEqual(6+1, sumWithContinuation(ArrayToList([1,2,3]))(kappa),'sumWithContinuation is not right!');
 	}
 });
 
@@ -86,6 +92,27 @@ YAHOO.GEIESFOLDS.test.oTestFoldRightAdvanced = new YAHOO.tool.TestCase({
 	}
 });
 
+YAHOO.GEIESFOLDS.test.oTestFoldLeftBasics = new YAHOO.tool.TestCase({
+	name : "TestFoldLeftBasics",
+	testFoldLeftBasics : function() {
+	
+		Assert.areEqual(6, sumWithFoldl(ArrayToList([1,2,3])),'fold left: sum is not right!');
+		Assert.areEqual(24, productWithFoldl(ArrayToList([1,2,3,4])),'fold left: product is not right!');
+		Assert.areEqual(4, countWithFoldl(ArrayToList([1,2,3,4])),'fold left: count is not right!');
+		
+		
+	}
+});
+
+YAHOO.GEIESFOLDS.test.oTestFoldLeftAdvanced = new YAHOO.tool.TestCase({
+	name : "TestFoldLeftAdvanced",
+	testFoldLeftAdvanced : function() {
+	
+		Assert.areEqual(1.2857142857142858, averageWithFoldl(ArrayToList([1,2,-3,0,5,1,3])),'fold left: average is not right!');
+	
+	}
+});
+
 
 YAHOO.util.Event
 		.onDOMReady(function() {
@@ -97,6 +124,10 @@ YAHOO.util.Event
 					.add(YAHOO.GEIESFOLDS.test.oTestFoldRightBasics);
 			YAHOO.GEIESFOLDS.test.GEIESFOLDS_TestSuite
 					.add(YAHOO.GEIESFOLDS.test.oTestFoldRightAdvanced);
+			YAHOO.GEIESFOLDS.test.GEIESFOLDS_TestSuite
+					.add(YAHOO.GEIESFOLDS.test.oTestFoldLeftBasics);
+			YAHOO.GEIESFOLDS.test.GEIESFOLDS_TestSuite
+					.add(YAHOO.GEIESFOLDS.test.oTestFoldLeftAdvanced);
 
 			var logger = new YAHOO.tool.TestLogger("testLogger_GEIESFOLDS");
 			logger.hideCategory("info");

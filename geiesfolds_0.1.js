@@ -9,16 +9,30 @@
 
 	The MIT License - Copyright (c) 2013 Geiesfolds Project
 */
-// Hutton: A tutorial on the universality and expressiveness of fold
+/* - Hutton: A tutorial on the universality and expressiveness of fold
+   - http://oldfashionedsoftware.com/2009/07/30/lots-and-lots-of-foldleft-examples/ */
 
-// fold right
+// fold right (fold)
 function fold(f){
 	return function(v){
 		return function(xs){
 			if (isEmpty(xs)){
 				return v;
 			} else {
-				return f(head(xs))(fold(f)(v)(tail(xs)));
+				return f(head(xs))(fold(f)(v)(tail(xs))); // fx fold fv xs
+			}
+		};
+	};
+};
+
+// fold left (foldl)
+function foldl(s){  // step
+	return function (a) {  // accumulator (aka zero)
+		return function(xs){
+			if (isEmpty(xs)){
+				return a;
+			} else {
+				return foldl(s)(s(a)(head(xs)))(tail(xs)); // foldl s sax xs
 			}
 		};
 	};
@@ -43,6 +57,8 @@ var _1 = first, _2 = second;
 
 // let'name things by their own name
 var IDENTITY = EMPTY;
+
+// PART ONE: using fold right
 
 // sum
 function adder(a){
@@ -180,4 +196,45 @@ var sumLeftWithFold = function(addenda){
 	return fold(sumLeftApex)(IDENTITY)(addenda)(0); // sumLeftApex is the helper of the real thing!
 };
 
-// foldl
+// foldl (expressed through fold right)
+// WIP
+
+
+// PART TWO: using fold left
+var sumWithFoldl = foldl(function(a){return function(x){return a+x;}})(0);
+var productWithFoldl = foldl(function(a){return function(x){return a*x;}})(1);
+var countWithFoldl = foldl(function(a){return function(x){return a+1;}})(0);
+
+var averageWithFoldl = function(xs){
+	if (isEmpty(xs)) {
+		return NaN;
+	} else {
+		var averager = function(aPair){ // that's the accumulator!
+			var ave = first(aPair), count = second(aPair);
+			return function(x){
+				var newAve = (ave*count+x)/(count+1);
+				return pair(newAve)(count+1);
+			};
+		};
+		return first(foldl(averager)(pair(head(xs))(1))(tail(xs)));
+	}
+};
+
+// special bonus: continuations
+function lengthWithContinuation(aList) {
+	return function(aCont){
+		if (isEmpty(aList)) return aCont(0);
+		else return lengthWithContinuation(tail(aList))(function(x){
+			return aCont(x+1);
+		});
+	}
+};
+
+function sumWithContinuation(aList) {
+	return function(aCont){
+		if (isEmpty(aList)) return aCont(0);
+		else return sumWithContinuation(tail(aList))(function(x){
+			return aCont(x+head(aList));
+		});
+	}
+};
