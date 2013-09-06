@@ -59,6 +59,14 @@ var _1 = first, _2 = second;
 // let'name things by their own name
 var IDENTITY = EMPTY;
 
+// a useful helper for repeating things
+function count(times){
+	var _soFar = times;
+	return function(){
+		return (--_soFar<0)?false:true;
+	};
+};
+
 // PART ONE: using fold right
 // --------------------------
 // sum
@@ -118,7 +126,7 @@ function concatter(x){
 	};
 };
 
-var concatWithFold = fold(concatter)(EMPTY);
+var reverseWithFold = fold(concatter)(EMPTY);
 
 // filter
 function filterer(p){
@@ -241,15 +249,9 @@ function penultimateWithFoldl(xs){
 
 function containsWithFoldl(xs){
 	return function(elem){
-		var flag = false;
 		var container = function(a){
 			return function(x){
-				if (!flag&&x===elem){
-					flag = true;
-					return true;
-				} else {
-					return a;
-				}
+				return a || x===elem;
 			}
 		};
 		return foldl(container)(false)(xs);
@@ -271,10 +273,36 @@ function getWithFoldl(xs){
 
 var reverseWithFoldl = foldl(function(a){return function(x){return cons(x,a);};})(EMPTY);
 // NB - foldleft reverses lists
-var uniqWithFoldl = foldl(function(a){return function(x){return containsWithFoldl(a)(x)?a:cons(x,a);};})(EMPTY);
+var uniqWithFoldl = function(xs){return reverseWithFoldl(foldl(function(a){return function(x){return containsWithFoldl(a)(x)?a:cons(x,a);};})(EMPTY)(xs));}
 
 // study next one with compose!
 //var uniqWithFoldl = reverseWithFoldl(foldl(function(a){return function(x){return containsWithFoldl(a)(x)?a:cons(x,a);};})(EMPTY));
+
+var encoder = function(pairs){
+	var currentEncoding, leadValue, currentValue;
+	return function(x){
+		if (isEmpty(pairs)) return cons(pair(x)(1),pairs);
+		else {
+			currentEncoding = head(pairs);
+			leadValue = first(currentEncoding);
+			currentValue = second(currentEncoding);
+			if (x===leadValue) return cons(pair(leadValue)(currentValue+1),tail(pairs));
+			else return cons(pair(x)(1),pairs);
+		}
+	};
+};
+var encodeWithFoldl = function(xs){return reverseWithFoldl(foldl(encoder)(EMPTY)(xs));}
+
+var decoder = function (decodeds){
+	return function(x){ // x = (key,value)
+		var key = first(x), value = second(x),
+		times=count(value), conser
+		;
+		//conser = function()
+		return fold(localCons)(decodeds);
+	};
+};
+var decodeWithFoldl = function(xs){return reverseWithFoldl(foldl(decoder)(EMPTY)(xs));}
 
 // special bonus: continuations
 function lengthWithContinuation(aList) {

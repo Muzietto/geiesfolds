@@ -17,7 +17,7 @@ YAHOO.GEIESFOLDS.test.oTestFoldRightBasics = new YAHOO.tool.TestCase({
 	testFoldRightBasics : function() {
 	
 		// recap from geieslists
-		Assert.isTrue(isEmpty(EMPTY));		
+		Assert.isTrue(isEmpty(EMPTY));
 		Assert.areEqual('abc', head(cons('abc',EMPTY)));
 		Assert.areEqual(EMPTY, tail(cons('abc',EMPTY)));
 		
@@ -25,6 +25,13 @@ YAHOO.GEIESFOLDS.test.oTestFoldRightBasics = new YAHOO.tool.TestCase({
 		var couple = pair('a')('b');
 		Assert.areEqual('a', _1(couple));
 		Assert.areEqual('b', _2(couple));
+		
+		// using count
+		var twoTimes = count(2);
+		Assert.isTrue(twoTimes(),'one!');
+		Assert.isTrue(twoTimes(),'two!');
+		Assert.isFalse(twoTimes(),'boom!');
+		Assert.isFalse(twoTimes(),'2boom!');
 
 		Assert.areEqual(6, sumWithFold(ArrayToList([1,2,3])),'fold right: sum is not right!');
 		Assert.areEqual(24, productWithFold(ArrayToList([1,2,3,4])),'fold right: product is not right!');
@@ -55,7 +62,7 @@ YAHOO.GEIESFOLDS.test.oTestFoldRightAdvanced = new YAHOO.tool.TestCase({
 		// concat
 		Assert.areEqual('[1,2,3,a,b,c]', curriedConcat(ArrayToList([1,2,3]))(ArrayToList(['a','b','c'])).c,'fold right: curriedConcat is not right!');
 		
-		Assert.areEqual('[3,2,1]', concatWithFold(ArrayToList([1,2,3])).c,'fold right: concat is not right!');
+		Assert.areEqual('[3,2,1]', reverseWithFold(ArrayToList([1,2,3])).c,'fold right: concat is not right!');
 		
 		// filter
 		var filter2 = function(x){return (x===2);};
@@ -119,12 +126,13 @@ YAHOO.GEIESFOLDS.test.oTestFoldLeftAdvanced = new YAHOO.tool.TestCase({
 		Assert.areEqual(3, getWithFoldl(ArrayToList([1,2,-3,0,5,1,3]))(6),'fold left: get2 is not right!');
 
 		Assert.areEqual(ArrayToList([3,1,5,0,-3,2,1]).c, reverseWithFoldl(ArrayToList([1,2,-3,0,5,1,3])).c,'fold left: reverse is not right!');
-		// NB - foldleft reverses lists
-		Assert.areEqual(ArrayToList([5,0,-3,2,1]).c, uniqWithFoldl(ArrayToList([1,2,-3,1,0,5,1,-3])).c,'fold left: uniq is not right!');
+		Assert.areEqual(ArrayToList([1,0,2,5,-3]).c, uniqWithFoldl(ArrayToList([1,0,2,5,1,0,-3,5,-3,1,2,0,2,1,0,2,-3,1,0,5,1,-3])).c,'fold left: uniq is not right!');
 		
-		//Assert.areEqual('[[1,3],[0,1],[2,1],[-3,2],[0,4],[5,3],[1,2],[3,4]]', encodeWithFoldl(ArrayToList([1,1,1,0,2,-3,-3,0,0,0,0,5,5,5,1,1,3,3,3,3])).c,'fold left: encode is not right!');
+		Assert.areEqual('[[1,3],[0,1],[2,1],[-3,2],[0,4],[5,3],[1,2],[3,4]]', encodeWithFoldl(ArrayToList([1,1,1,0,2,-3,-3,0,0,0,0,5,5,5,1,1,3,3,3,3])).c,'fold left: encode1 is not right!');
+		Assert.areEqual('[[a,3],[asd,1],[2,1],[-3,2],[asd,4],[false,3],[a,2],[3,4]]', encodeWithFoldl(ArrayToList(['a','a','a','asd',2,-3,-3,'asd','asd','asd','asd',false,false,false,'a','a',3,3,3,3])).c,'fold left: encode2 is not right!');
 		//Assert.areEqual('[1,1,1,0,2,-3,-3,0,0,0,0,5,5,5,1,1,3,3,3,3]', decodeWithFoldl(ArrayToList([[1,3],[0,1],[2,1],[-3,2],[0,4],[5,3],[1,2],[3,4]])).c,'fold left: decode is not right!');
 		
+		//Assert.areEqual('[1,2,-3],[0,5,1],[3]', groupWithFoldl(ArrayToList([1,2,-3,0,5,1,3]))(3).c,'fold left: reverse is not right!');
 	}
 });
 
