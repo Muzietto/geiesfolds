@@ -108,7 +108,7 @@ YAHOO.GEIESFOLDS.test.oTestFoldLeftAdvanced = new YAHOO.tool.TestCase({
 	name : "TestFoldLeftAdvanced",
 	testFoldLeftAdvanced : function() {
 	
-		Assert.areEqual(1.2857142857142858, averageWithFoldl(ArrayToList([1,2,-3,0,5,1,3])),'fold left: average is not right!');
+		Assert.areEqual(0, averageWithFoldl(ArrayToList([-5,1,-2,2,-3,0,5,-1,3])),'fold left: average is not right!');
 		Assert.areEqual(3, lastWithFoldl(ArrayToList([1,2,-3,0,5,1,3])),'fold left: last is not right!');
 		Assert.areEqual(1, penultimateWithFoldl(ArrayToList([1,2,-3,0,5,1,3])),'fold left: penultimate is not right!');
 	
@@ -117,6 +117,14 @@ YAHOO.GEIESFOLDS.test.oTestFoldLeftAdvanced = new YAHOO.tool.TestCase({
 
 		Assert.areEqual(1, getWithFoldl(ArrayToList([1,2,-3,0,5,1,3]))(0),'fold left: get1 is not right!');
 		Assert.areEqual(3, getWithFoldl(ArrayToList([1,2,-3,0,5,1,3]))(6),'fold left: get2 is not right!');
+
+		Assert.areEqual(ArrayToList([3,1,5,0,-3,2,1]).c, reverseWithFoldl(ArrayToList([1,2,-3,0,5,1,3])).c,'fold left: reverse is not right!');
+		// NB - foldleft reverses lists
+		Assert.areEqual(ArrayToList([5,0,-3,2,1]).c, uniqWithFoldl(ArrayToList([1,2,-3,1,0,5,1,-3])).c,'fold left: uniq is not right!');
+		
+		//Assert.areEqual('[[1,3],[0,1],[2,1],[-3,2],[0,4],[5,3],[1,2],[3,4]]', encodeWithFoldl(ArrayToList([1,1,1,0,2,-3,-3,0,0,0,0,5,5,5,1,1,3,3,3,3])).c,'fold left: encode is not right!');
+		//Assert.areEqual('[1,1,1,0,2,-3,-3,0,0,0,0,5,5,5,1,1,3,3,3,3]', decodeWithFoldl(ArrayToList([[1,3],[0,1],[2,1],[-3,2],[0,4],[5,3],[1,2],[3,4]])).c,'fold left: decode is not right!');
+		
 	}
 });
 

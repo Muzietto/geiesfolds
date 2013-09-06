@@ -5,7 +5,7 @@
 	     http://faustinelli.wordpress.com/
 	Version: 0.1 (pre)
 	
-	Requires geieslists.
+	Requires geieslists 1.0
 
 	The MIT License - Copyright (c) 2013 Geiesfolds Project
 */
@@ -38,20 +38,21 @@ function foldl(s){  // step
 	};
 };
 
-// tuples management (helper functions)
+/* tuples management (helper functions)
+   "And after all, Hare did have a spare a-pair" (1973)  */
 function pair(first) {
 	return function(second) {
 		return cons(first,cons(second,EMPTY));
 	}
 }
 
-function first(tuple) { 
-	if (size(tuple)!==2) throw 'Not a tuple!'
-	else return head(tuple)
+function first(aPair) { 
+	if (size(aPair)!==2) throw 'Not a pair!'
+	else return head(aPair)
 }
-function second(tuple) { 
-	if (size(tuple)!==2) throw 'Not a tuple!'
-	else return head(tail(tuple))
+function second(aPair) { 
+	if (size(aPair)!==2) throw 'Not a pair!'
+	else return head(tail(aPair))
 }
 var _1 = first, _2 = second;
 
@@ -59,7 +60,7 @@ var _1 = first, _2 = second;
 var IDENTITY = EMPTY;
 
 // PART ONE: using fold right
-
+// --------------------------
 // sum
 function adder(a){
 	return function(b){
@@ -177,7 +178,7 @@ function composer(x){
 	}
 }
 // NB: will use operand instead of IDENTITY at deepest recursion level!
-var composeWithFold = function(funcs){
+function composeWithFold(funcs){
 	return function(operand){
 		return fold(composer)(operand)(funcs);
 	}
@@ -192,7 +193,7 @@ function sumLeftApex(x){ // head
 	};
 };
 
-var sumLeftWithFold = function(addenda){
+function sumLeftWithFold(addenda){
 	return fold(sumLeftApex)(IDENTITY)(addenda)(0); // sumLeftApex is the helper of the real thing!
 };
 
@@ -201,11 +202,12 @@ var sumLeftWithFold = function(addenda){
 
 
 // PART TWO: using fold left
+// -------------------------
 var sumWithFoldl = foldl(function(a){return function(x){return a+x;}})(0);
 var productWithFoldl = foldl(function(a){return function(x){return a*x;}})(1);
 var countWithFoldl = foldl(function(a){return function(x){return a+1;}})(0);
 
-var averageWithFoldl = function(xs){
+function averageWithFoldl(xs){
 	if (isEmpty(xs)) {
 		return NaN;
 	} else {
@@ -220,7 +222,7 @@ var averageWithFoldl = function(xs){
 	}
 };
 
-var lastWithFoldl = function(xs){
+function lastWithFoldl(xs){
 	return foldl(function(a){ // acc contains xs and gets sliced more and more
 		return function(x){
 			return isEmpty(a)?x:tail(a);
@@ -228,7 +230,7 @@ var lastWithFoldl = function(xs){
 	})(tail(xs))(xs);
 };
 
-var penultimateWithFoldl = function(xs){
+function penultimateWithFoldl(xs){
 	return first(foldl(function(aPair){  // (last,penultimate)
 		return function(x){
 			var penultimate = second(aPair);
@@ -237,7 +239,7 @@ var penultimateWithFoldl = function(xs){
 	})(pair(head(xs))(head(tail(xs))))(xs));
 };
 
-var containsWithFoldl = function(xs){
+function containsWithFoldl(xs){
 	return function(elem){
 		var flag = false;
 		var container = function(a){
@@ -254,7 +256,7 @@ var containsWithFoldl = function(xs){
 	};
 };
 
-var getWithFoldl = function(xs){
+function getWithFoldl(xs){
 	return function(index){
 		var getter = function(aPair){
 			var currentIndex = first(aPair), result = second(aPair);
@@ -266,6 +268,13 @@ var getWithFoldl = function(xs){
 		return second(foldl(getter)(pair(0)(EMPTY))(xs));
 	};
 };
+
+var reverseWithFoldl = foldl(function(a){return function(x){return cons(x,a);};})(EMPTY);
+// NB - foldleft reverses lists
+var uniqWithFoldl = foldl(function(a){return function(x){return containsWithFoldl(a)(x)?a:cons(x,a);};})(EMPTY);
+
+// study next one with compose!
+//var uniqWithFoldl = reverseWithFoldl(foldl(function(a){return function(x){return containsWithFoldl(a)(x)?a:cons(x,a);};})(EMPTY));
 
 // special bonus: continuations
 function lengthWithContinuation(aList) {
