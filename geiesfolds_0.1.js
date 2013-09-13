@@ -39,7 +39,7 @@ function foldl(s){  // step
 };
 
 /* tuples management (helper functions)
-   "And after all, Hare did have a spare a-pair" (1973)  */
+   "And after all, Hare did have a spare pair" (1973)  */
 function pair(first) {
 	return function(second) {
 		return cons(first,cons(second,EMPTY));
@@ -63,9 +63,11 @@ var IDENTITY = EMPTY;
 function count(times){
 	var _soFar = times;
 	return function(){
-		return (--_soFar<0)?false:true;
+		return (--_soFar>=0)?true:false;
 	};
 };
+
+
 
 // PART ONE: using fold right
 // --------------------------
@@ -196,7 +198,7 @@ function composeWithFold(funcs){
 function sumLeftApex(x){ // head
 	return function(y){ // sumLeftApex(xs)
 		return function(z){ // acc
-			return y(x+z);
+			return y(x+z); // sumLeftApex(x+acc)(xs)
 		};
 	};
 };
@@ -204,6 +206,21 @@ function sumLeftApex(x){ // head
 function sumLeftWithFold(addenda){
 	return fold(sumLeftApex)(IDENTITY)(addenda)(0); // sumLeftApex is the helper of the real thing!
 };
+
+// getWithFoldRight
+function getterRight(x){ // head
+	return function(y){ // getApex(xs)
+		return function(n){ // current index
+			return (n===0)?x:y(n-1);
+		};
+	};
+};
+
+function getWithFold(xs){
+	return function(index){
+		return fold(getterRight)(function(n){throw 'OUT!'})(xs)(index);
+	};
+}; 
 
 // foldl (expressed through fold right)
 // WIP
@@ -303,6 +320,12 @@ var decoder = function (decodeds){
 	};
 };
 var decodeWithFoldl = function(xs){return reverseWithFoldl(foldl(decoder)(EMPTY)(xs));}
+
+/* archiveBuilder: 
+ - archiveBuilder(['a','b','c'],{},'leaf') --> {a:{b:{c:'leaf'}}}
+ - archiveBuilder(['a','b','b'],{a:{b:{c:'leaf'}}},'leaf2') --> {a:{b:{b:'leaf2',c:'leaf'}}}
+*/
+var archiveBuilder = function(){};
 
 // special bonus: continuations
 function lengthWithContinuation(aList) {

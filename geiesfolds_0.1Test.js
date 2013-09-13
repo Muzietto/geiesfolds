@@ -31,7 +31,18 @@ YAHOO.GEIESFOLDS.test.oTestFoldRightBasics = new YAHOO.tool.TestCase({
 		Assert.isTrue(twoTimes(),'one!');
 		Assert.isTrue(twoTimes(),'two!');
 		Assert.isFalse(twoTimes(),'boom!');
-		Assert.isFalse(twoTimes(),'2boom!');
+		
+		// fake lists
+		/*
+		var fakeListSizeTwo = fakeList(2);
+		Assert.isTrue(isAtom(head(fakeListSizeTwo)),'head first!');
+		Assert.isTrue(isList(tail(fakeListSizeTwo)),'tail first!');
+		var fakeListSizeOne = tail(fakeListSizeTwo);
+		Assert.isTrue(isAtom(head(fakeListSizeOne)),'head second!');
+		Assert.isTrue(isList(tail(fakeListSizeOne)),'tail second!');
+		var fakeListEmpty = tail(fakeListSizeOne);
+		Assert.isTrue(isEmpty(head(fakeListEmpty)),'empty at last!');		
+		*/
 
 		Assert.areEqual(6, sumWithFold(ArrayToList([1,2,3])),'fold right: sum is not right!');
 		Assert.areEqual(24, productWithFold(ArrayToList([1,2,3,4])),'fold right: product is not right!');
@@ -95,7 +106,56 @@ YAHOO.GEIESFOLDS.test.oTestFoldRightAdvanced = new YAHOO.tool.TestCase({
 
 		// sumleft
 		Assert.areEqual(6, sumLeftWithFold(ArrayToList([1,2,3])),'fold right: sumLeftWithFold is not right!');
+		
+		// getWithFoldRight
+		Assert.areEqual(1, getWithFold(ArrayToList([1,2,-3,0,5,1,3]))(0),'fold right: get1 is not right!');
+		Assert.areEqual(3, getWithFold(ArrayToList([1,2,-3,0,5,1,3]))(6),'fold right: get2 is not right!');
 
+	}
+});
+
+YAHOO.GEIESFOLDS.test.oTestFoldRightCustom = new YAHOO.tool.TestCase({
+	name : "TestRightCustom",
+	testFoldRightCustom : function() {
+	
+		// {c:'leaf'}
+		var object1 = archiveBuilder(['c'],{},'leaf');
+		Assert.isObject(object1,'object1 failed!');
+		Assert.isNotUndefined(object1.c,'object1.c failed!');
+		Assert.areEqual('leaf', object1.c,'object1.c wrong string!');
+	
+		// {b:'leaf2',c:'leaf'}
+		var object2 = archiveBuilder(['b'],object1,'leaf2');
+		Assert.areEqual('leaf2', object2.b,'object2.b wrong string!');
+		Assert.areEqual('leaf', object2.c,'object2.c wrong string!');
+
+		// {b:{c:'leaf'}}
+		var object3 = archiveBuilder(['b','c'],{},'leaf');
+		Assert.isObject(object3.b,'object3.b failed!');
+		Assert.isNotUndefined(object3.b.c,'object3.b.c failed!');
+		Assert.areEqual('leaf', object3.b.c,'object3.b.c wrong string!');
+	
+		// {a:'leaf3',b:{c:'leaf'}}
+		var object4 = archiveBuilder(['a'],object3,'leaf3');
+		Assert.isNotUndefined(object4.a,'object4.a failed!');
+		Assert.isObject(object4.b,'object4.b failed!');
+		Assert.areEqual('leaf3', object4.a,'objecta4.a wrong string!');
+
+		// {a:{b:{c:'leaf'}}}
+		var object10 = archiveBuilder(['a','b','c'],{},'leaf');
+		Assert.isObject(object10.a.b,'object10.a.b failed!');
+		Assert.isNotUndefined(object10.a.b.c,'object10.a.b.c failed!');
+		Assert.areEqual('leaf', object10.a.b.c,'object10.a.b.c wrong string!');
+		
+		// {a:{b:{b:'leaf2',c:'leaf'}}}
+		var object11 = archiveBuilder(['a','b','b'],object10,'leaf2');
+		Assert.isNotUndefined(object11.a.b.b,'object11.a.b.b failed!');
+		Assert.areEqual('leaf2', object11.a.b.b,'object11.a.b.b wrong string!');
+		
+		// {a:{b:{b:'leaf2',c:'leaf'},c:'leaf3'}}
+		var object12 = archiveBuilder(['a','c'],object11,'leaf3');
+		Assert.isNotUndefined(object12.c,'object12.c failed!');
+		Assert.areEqual('leaf3', object12.c,'object12.c wrong string!');
 	}
 });
 
@@ -147,6 +207,8 @@ YAHOO.util.Event
 					.add(YAHOO.GEIESFOLDS.test.oTestFoldRightBasics);
 			YAHOO.GEIESFOLDS.test.GEIESFOLDS_TestSuite
 					.add(YAHOO.GEIESFOLDS.test.oTestFoldRightAdvanced);
+			YAHOO.GEIESFOLDS.test.GEIESFOLDS_TestSuite
+					.add(YAHOO.GEIESFOLDS.test.oTestFoldRightCustom);
 			YAHOO.GEIESFOLDS.test.GEIESFOLDS_TestSuite
 					.add(YAHOO.GEIESFOLDS.test.oTestFoldLeftBasics);
 			YAHOO.GEIESFOLDS.test.GEIESFOLDS_TestSuite
