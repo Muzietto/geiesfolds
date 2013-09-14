@@ -67,8 +67,6 @@ function count(times){
 	};
 };
 
-
-
 // PART ONE: using fold right
 // --------------------------
 // sum
@@ -198,13 +196,46 @@ function composeWithFold(funcs){
 function sumLeftApex(x){ // head
 	return function(y){ // sumLeftApex(xs)
 		return function(z){ // acc
-			return y(x+z); // sumLeftApex(x+acc)(xs)
+			return y(x+z); // sumLeftApex(xs)(x+acc)
 		};
 	};
 };
 
 function sumLeftWithFold(addenda){
 	return fold(sumLeftApex)(IDENTITY)(addenda)(0); // sumLeftApex is the helper of the real thing!
+};
+
+/* archiveBuilder: STILL NOT WORKING
+ - archiveBuilder(['a','b','c'],{},'leaf') --> {a:{b:{c:'leaf'}}}
+ - archiveBuilder(['a','b','b'],{a:{b:{c:'leaf'}}},'leaf2') --> {a:{b:{b:'leaf2',c:'leaf'}}}  */
+var aabbR = function(start){  // worker for fold right
+	return function(x){
+		return function(y){
+			var result = start;
+			result[x] = y;
+			return result;
+		}
+	}
+};
+
+// this one succeeds if depth=1
+var archiveBuilder2 = function(locator,start,leaf){
+		return fold(aabbR(start))(leaf)(locator);
+}
+
+var abApexer = //function(start){
+	/*return*/ function(x){
+		return function(y){
+			return function(r){
+				//r[x]=y;
+				return y(r[x]);
+			};
+		};
+	//};
+};
+
+var archiveBuilder = function(locator,start,leaf){
+	return fold(abApexer/*(start)*/)(function(){return leaf;})(locator)(start);
 };
 
 // getWithFoldRight
@@ -223,8 +254,24 @@ function getWithFold(xs){
 }; 
 
 // foldl (expressed through fold right)
-// WIP
+// <code>foldl s a xs = fold (\x ss aa -&gt; ss(s aa x)) IDENTITY xs a</code>
+function foldLefter(s){ // the fold left operator
+	return function(x){ // head 
+		return function(ss){ // the future of fold left in the hands of fold right
+			return function(aa){ // placeholder for the accumulator
+				return ss(s(aa)(x));
+			};
+		};
+	};
+};
 
+var foldLeftByFoldRight = function(s){
+	return function(a){
+		return function(xs){
+			return fold(foldLefter(s))(IDENTITY)(xs)(a);
+		};
+	};
+};
 
 // PART TWO: using fold left
 // -------------------------
@@ -320,12 +367,6 @@ var decoder = function (decodeds){
 	};
 };
 var decodeWithFoldl = function(xs){return reverseWithFoldl(foldl(decoder)(EMPTY)(xs));}
-
-/* archiveBuilder: 
- - archiveBuilder(['a','b','c'],{},'leaf') --> {a:{b:{c:'leaf'}}}
- - archiveBuilder(['a','b','b'],{a:{b:{c:'leaf'}}},'leaf2') --> {a:{b:{b:'leaf2',c:'leaf'}}}
-*/
-var archiveBuilder = function(){};
 
 // special bonus: continuations
 function lengthWithContinuation(aList) {
