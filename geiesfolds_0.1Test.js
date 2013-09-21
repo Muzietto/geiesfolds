@@ -126,7 +126,7 @@ YAHOO.GEIESFOLDS.test.oTestFoldRightCustom = new YAHOO.tool.TestCase({
 	testFoldRightCustom : function() {
 	
 		// {c:'leaf'}
-/*		var ert = ArrayToList(['c']);
+		var ert = ArrayToList(['c']);
 		var object1 = archiveBuilder(ert,{},'leaf');
 		Assert.isObject(object1,'object1 failed!');
 		Assert.isNotUndefined(object1.c,'object1.c failed!');
@@ -135,7 +135,7 @@ YAHOO.GEIESFOLDS.test.oTestFoldRightCustom = new YAHOO.tool.TestCase({
 		// {b:'leaf2',c:'leaf'}
 		var object2 = archiveBuilder(ArrayToList(['b']),object1,'leaf2');
 		Assert.areEqual('leaf2', object2.b,'object2.b wrong string!');
-		Assert.areEqual('leaf', object2.c,'object2.c wrong string!');
+		//Assert.areEqual('leaf', object2.c,'object2.c wrong string!');
 
 		// {b:{c:'leaf'}}
 		var object3 = archiveBuilder(ArrayToList(['b','c']),{},'leaf');
@@ -144,7 +144,7 @@ YAHOO.GEIESFOLDS.test.oTestFoldRightCustom = new YAHOO.tool.TestCase({
 		Assert.areEqual('leaf', object3.b.c,'object3.b.c wrong string!');
 	
 		// {a:'leaf3',b:{c:'leaf'}}
-		var object4 = archiveBuilder(ArrayToList(['a']),object3,'leaf3');
+/*		var object4 = archiveBuilder(ArrayToList(['a']),object3,'leaf3');
 		Assert.isNotUndefined(object4.a,'object4.a failed!');
 		Assert.isObject(object4.b,'object4.b failed!');
 		Assert.areEqual('leaf3', object4.a,'objecta4.a wrong string!');
@@ -175,6 +175,10 @@ YAHOO.GEIESFOLDS.test.oTestFoldLeftBasics = new YAHOO.tool.TestCase({
 		Assert.areEqual(6, sumWithFoldl(ArrayToList([1,2,3])),'fold left: sum is not right!');
 		Assert.areEqual(24, productWithFoldl(ArrayToList([1,2,3,4])),'fold left: product is not right!');
 		Assert.areEqual(4, countWithFoldl(ArrayToList([1,2,3,4])),'fold left: count is not right!');
+		Assert.areEqual(true, andWithFoldl(ArrayToList([true,true,true])),'fold right: and1 is not right!');
+		Assert.areEqual(false, andWithFoldl(ArrayToList([true,false,true])),'fold right: and2 is not right!');
+		Assert.areEqual(true, orWithFoldl(ArrayToList([false,false,true])),'fold right: or1 is not right!');
+		Assert.areEqual(false, orWithFoldl(ArrayToList([false,false,false])),'fold right: or2 is not right!');
 		
 		
 	}

@@ -223,19 +223,29 @@ var archiveBuilder2 = function(locator,start,leaf){
 		return fold(aabbR(start))(leaf)(locator);
 }
 
-var abApexer = //function(start){
-	/*return*/ function(x){
+var abApexer = function(x){
 		return function(y){
 			return function(r){
-				//r[x]=y;
-				return y(r[x]);
+				return y(r)(x);
 			};
 		};
-	//};
+};
+
+var vu = function(r){ // current value
+	return function(x){ // current key
+		var result = {};
+		if (r===EMPTY){
+			result[x]=leaf;
+		} else {
+			result[x]=r;
+		}
+		r=result;
+		return r;
+	};
 };
 
 var archiveBuilder = function(locator,start,leaf){
-	return fold(abApexer/*(start)*/)(function(){return leaf;})(locator)(start);
+	return fold(abApexer)(vu)(locator)(EMPTY);
 };
 
 // getWithFoldRight
@@ -278,28 +288,37 @@ var foldLeftByFoldRight = function(s){
 var sumWithFoldl = foldl(function(a){return function(x){return a+x;}})(0);
 var productWithFoldl = foldl(function(a){return function(x){return a*x;}})(1);
 var countWithFoldl = foldl(function(a){return function(x){return a+1;}})(0);
+var andWithFoldl = foldl(function(a){return function(x){return a&&x;}})(true);
+var orWithFoldl = foldl(function(a){return function(x){return a||x;}})(false);
 
-function averageWithFoldl(xs){
-	if (isEmpty(xs)) {
-		return NaN;
-	} else {
-		var averager = function(aPair){ // that's the accumulator!
-			var ave = first(aPair), count = second(aPair);
-			return function(x){
-				var newAve = (ave*count+x)/(count+1);
-				return pair(newAve)(count+1);
-			};
-		};
-		return first(foldl(averager)(pair(head(xs))(1))(tail(xs)));
-	}
+var averager = function(aPair){ // that's the accumulator!
+	var ave = first(aPair), count = second(aPair);
+	return function(x){
+		var newAve = (ave*count+x)/(count+1);
+		return pair(newAve)(count+1);
+	};
 };
 
-function lastWithFoldl(xs){
+function averageWithFoldl(xs) {
+	return first(foldl(averager)(pair(0)(0))(xs));
+}
+
+function lastWithFoldl2(xs){
 	return foldl(function(a){ // acc contains xs and gets sliced more and more
 		return function(x){
 			return isEmpty(a)?x:tail(a);
 		}
 	})(tail(xs))(xs);
+};
+
+var laster = function(a){ // acc contains xs and gets sliced more and more
+	return function(x){
+		return isEmpty(a)?x:tail(a);
+	}
+};
+
+function lastWithFoldl(xs){
+	return foldl(laster)(tail(xs))(xs);
 };
 
 function penultimateWithFoldl(xs){
