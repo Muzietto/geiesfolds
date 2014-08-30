@@ -29,8 +29,11 @@ Fold left is easy, though. And there are plenty of sources out there.
 DEBITS AND CREDITS
 ------------------
 I am in deep debt with:
+
 1) Real World Haskell, O'Reilly
+
 2) A tutorial on the universality and expressiveness of fold (Graham Hutton)
+
 3) http://oldfashionedsoftware.com/2009/07/30/lots-and-lots-of-foldleft-examples/
 
 Any feedback is welcome.

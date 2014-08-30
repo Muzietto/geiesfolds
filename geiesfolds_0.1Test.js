@@ -126,7 +126,7 @@ YAHOO.GEIESFOLDS.test.oTestFoldRightCustom = new YAHOO.tool.TestCase({
 	testFoldRightCustom : function() {
 	
 		// {c:'leaf'}
-		var ert = ArrayToList(['c']);
+/*		var ert = ArrayToList(['c']);
 		var object1 = archiveBuilder(ert,{},'leaf');
 		Assert.isObject(object1,'object1 failed!');
 		Assert.isNotUndefined(object1.c,'object1.c failed!');
@@ -144,7 +144,7 @@ YAHOO.GEIESFOLDS.test.oTestFoldRightCustom = new YAHOO.tool.TestCase({
 		Assert.areEqual('leaf', object3.b.c,'object3.b.c wrong string!');
 	
 		// {a:'leaf3',b:{c:'leaf'}}
-/*		var object4 = archiveBuilder(ArrayToList(['a']),object3,'leaf3');
+		var object4 = archiveBuilder(ArrayToList(['a']),object3,'leaf3');
 		Assert.isNotUndefined(object4.a,'object4.a failed!');
 		Assert.isObject(object4.b,'object4.b failed!');
 		Assert.areEqual('leaf3', object4.a,'objecta4.a wrong string!');
@@ -203,6 +203,8 @@ YAHOO.GEIESFOLDS.test.oTestFoldLeftAdvanced = new YAHOO.tool.TestCase({
 		
 		Assert.areEqual('[[1,3],[0,1],[2,1],[-3,2],[0,4],[5,3],[1,2],[3,4]]', encodeWithFoldl(ArrayToList([1,1,1,0,2,-3,-3,0,0,0,0,5,5,5,1,1,3,3,3,3])).c,'fold left: encode1 is not right!');
 		Assert.areEqual('[[a,3],[asd,1],[2,1],[-3,2],[asd,4],[false,3],[a,2],[3,4]]', encodeWithFoldl(ArrayToList(['a','a','a','asd',2,-3,-3,'asd','asd','asd','asd',false,false,false,'a','a',3,3,3,3])).c,'fold left: encode2 is not right!');
+		
+		//Assert.areEqual('[1,1,1,0,2]', decodeWithFoldl(ArrayToList([[1,3],[0,1],[2,1]])).c,'fold left: decode is not right!');
 		//Assert.areEqual('[1,1,1,0,2,-3,-3,0,0,0,0,5,5,5,1,1,3,3,3,3]', decodeWithFoldl(ArrayToList([[1,3],[0,1],[2,1],[-3,2],[0,4],[5,3],[1,2],[3,4]])).c,'fold left: decode is not right!');
 		
 		//Assert.areEqual('[1,2,-3],[0,5,1],[3]', groupWithFoldl(ArrayToList([1,2,-3,0,5,1,3]))(3).c,'fold left: reverse is not right!');

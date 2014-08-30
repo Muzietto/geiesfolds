@@ -303,14 +303,6 @@ function averageWithFoldl(xs) {
 	return first(foldl(averager)(pair(0)(0))(xs));
 }
 
-function lastWithFoldl2(xs){
-	return foldl(function(a){ // acc contains xs and gets sliced more and more
-		return function(x){
-			return isEmpty(a)?x:tail(a);
-		}
-	})(tail(xs))(xs);
-};
-
 var laster = function(a){ // acc contains xs and gets sliced more and more
 	return function(x){
 		return isEmpty(a)?x:tail(a);
@@ -354,7 +346,14 @@ function getWithFoldl(xs){
 	};
 };
 
-var reverseWithFoldl = foldl(function(a){return function(x){return cons(x,a);};})(EMPTY);
+var conser = function (tail) {
+	return function(head) {
+		return cons(head,tail);
+	}
+}
+
+function reverseWithFoldl(xs) { return foldl(conser)(EMPTY)(xs); }
+
 // NB - foldleft reverses lists
 var uniqWithFoldl = function(xs){return reverseWithFoldl(foldl(function(a){return function(x){return containsWithFoldl(a)(x)?a:cons(x,a);};})(EMPTY)(xs));}
 
@@ -374,8 +373,10 @@ var encoder = function(pairs){
 		}
 	};
 };
-var encodeWithFoldl = function(xs){return reverseWithFoldl(foldl(encoder)(EMPTY)(xs));}
 
+var encodeWithFoldl = function(xs){ return reverseWithFoldl(foldl(encoder)(EMPTY)(xs)); }
+
+// Decode us WIP
 var decoder = function (decodeds){
 	return function(x){ // x = (key,value)
 		var key = first(x), value = second(x),
