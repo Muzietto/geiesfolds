@@ -9,7 +9,7 @@ It features the translation c/q adaptation in JavaScript of the Haskell examples
 
 All this while throwing in some original experiments and links to other functional matters like tuples and continuations.
 
-This code is presented at:
+This project is presented at:
 
 http://faustinelli.wordpress.com/2013/09/10/fold-right-in-javascript/
 http://faustinelli.wordpress.com/2010/04/22/foldleft-foldright/
