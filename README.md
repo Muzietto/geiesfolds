@@ -19,7 +19,7 @@ I know this JavaScript code is just a bunch of global stuff, but it's not meant 
 ORIGINAL CONTRIBUTION
 ---------------------
 Getting to master fold right is a very difficult undertaking. I have found plenty of fold left blog examples, but 
-very little about fold right. Let alone in Javascript.
+very little about fold right. Let alone in JavaScript.
 
 The main idea is to present a series of examples of increasing difficulty, illustrating new FP techniques
 along the way.
@@ -33,9 +33,9 @@ DEBITS AND CREDITS
 ------------------
 I am in deep debt with:
 
-1) A tutorial on the universality and expressiveness of fold (Graham Hutton)
+1) "A tutorial on the universality and expressiveness of fold" (Graham Hutton)
 
-2) Real World Haskell, O'Reilly
+2) "Real World Haskell", O'Reilly
 
 3) http://oldfashionedsoftware.com/2009/07/30/lots-and-lots-of-foldleft-examples/
 
