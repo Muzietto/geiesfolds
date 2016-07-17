@@ -3,7 +3,7 @@
 PRE-RELEASE 0.1
 ---------------
 
-Crisp clear Javascript folds. This repository relies on [geieslists](https://github.com/Muzietto/geieslists) for handling functions like cons, head/car, tail/cdr.
+Crisp clear JavaScript folds. This repository relies on [geieslists](https://github.com/Muzietto/geieslists) for handling functions like cons, head/car, tail/cdr.
 
 It features the translation c/q adaptation in JavaScript of the Haskell examples from 1) and 2), plus the Scala examples from 3).
 
@@ -24,7 +24,7 @@ very little about fold right. Let alone in Javascript.
 The main idea is to present a series of examples of increasing difficulty, illustrating new FP techniques
 along the way.
 
-In the case of fold right there are also two original contributions, get n and archiveBuilder (still WIP).
+In the case of fold right there are also two original contributions, _get n_ and _archiveBuilder_ (the latter still WIP).
 
 There are a few original examples of fold left in the code, but they aren't yet commented in the blog page.
 Fold left is easy, though. And there are plenty of sources out there.
