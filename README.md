@@ -1,17 +1,20 @@
-geiesfolds - PRE-RELEASE 0.1
-============================
-Crisp clear Javascript folds. This repository builds on geieslists for handling functions like cons, head/car, tail/cdr.
+# geiesfolds   ( _j_-_s_-folds)
 
-It features the translation c/q adaptation in javascript the Haskell examples from 1) and 2), plus the Scala examples from 3).
+PRE-RELEASE 0.1
+---------------
 
-All this throwing in some original experiments and links to other functional matters like tuples and continuations.
+Crisp clear Javascript folds. This repository relies on [geieslists](https://github.com/Muzietto/geieslists) for handling functions like cons, head/car, tail/cdr.
+
+It features the translation c/q adaptation in JavaScript of the Haskell examples from 1) and 2), plus the Scala examples from 3).
+
+All this while throwing in some original experiments and links to other functional matters like tuples and continuations.
 
 This code is presented at:
 
 http://faustinelli.wordpress.com/2013/09/10/fold-right-in-javascript/
 http://faustinelli.wordpress.com/2010/04/22/foldleft-foldright/
 
-I know this Javascript code is just a bunch of global stuff, but it's not meant to be used as-is in a production environment.
+I know this JavaScript code is just a bunch of global stuff, but it's not meant to be used as-is in a production environment.
 
 ORIGINAL CONTRIBUTION
 ---------------------
@@ -30,9 +33,9 @@ DEBITS AND CREDITS
 ------------------
 I am in deep debt with:
 
-1) Real World Haskell, O'Reilly
+1) A tutorial on the universality and expressiveness of fold (Graham Hutton)
 
-2) A tutorial on the universality and expressiveness of fold (Graham Hutton)
+2) Real World Haskell, O'Reilly
 
 3) http://oldfashionedsoftware.com/2009/07/30/lots-and-lots-of-foldleft-examples/
 
