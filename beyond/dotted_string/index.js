@@ -6,20 +6,32 @@ var idAu0 = 'iq#0.iqr#1/0.au#2/0';
 var withoutNesteds = {state: stateWithoutNesteds(), dsl: dslIqrWithoutNesteds()};
 var withNesteds = {state: stateWithNesteds(), dsl: dslIqrWithNesteds()};
 
-// xxx(idIqr, withoutNesteds, []) = ['iq#0.iqr#1/0']
-// xxx(idIqr, withNesteds, []) = ['iq#0.iqr#1/0.au#2/0', 'iq#0.iqr#1/0.au#2/1', 'iq#0.iqr#1/0']
+// xxx(idIqr, stateObjWithoutNesteds, []) = ['iq#0.iqr#1/0']
+// xxx(idIqr, stateObjWithNesteds, []) = ['iq#0.iqr#1/0.au#2/0', 'iq#0.iqr#1/0.au#2/1', 'iq#0.iqr#1/0']
+
+var stateObjWithoutNesteds = stateWithoutNesteds();
+stateObjWithoutNesteds.dsl = dslIqrWithoutNesteds();
+
+var stateObjWithNesteds = stateWithNesteds();
+stateObjWithNesteds.dsl = dslIqrWithNesteds();
+
+xxx(idIqr, stateObjWithoutNesteds, []);
+xxx(idIqr, stateObjWithNesteds, []);
+
 
 function xxx(id, state, acc) {
     if (containsRepeatableContentTypes(id, state.dsl)) {
 
+        alert('no nesteds');
         return;
     }
+    alert('nesteds');
     return acc.concat([id]);
 }
 
 function containsRepeatableContentTypes(id, dsl) {
     return dsl.content_type.form.some(function (item) {
-        return item.content_type && ite.content_type.repeatable;
+        return item.content_type && item.content_type.repeatable;
     });
 }
 
