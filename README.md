@@ -35,7 +35,7 @@ DEBITS AND CREDITS
 ------------------
 I am in deep debt with:
 
-1) "A tutorial on the universality and expressiveness of fold" (Graham Hutton)
+1) Graham Hutton - ["A tutorial on the universality and expressiveness of fold"](https://github.com/Muzietto/geiesfolds/blob/master/doc/fold_hutton_paper.pdf)
 
 2) "Real World Haskell", O'Reilly
 
